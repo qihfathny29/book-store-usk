@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.app')
 @section('title', 'Katalog Buku — BookStore')
 
 @section('content')
@@ -7,7 +7,7 @@
     <h1 class="text-4xl font-extrabold text-white mb-8 border-b-2 border-red-600 pb-4 inline-block">Katalog Buku</h1>
 
     {{-- Filter & Search --}}
-    <form action="/user/books" method="GET"
+    <form action="/books" method="GET"
           class="bg-zinc-900 border border-red-900/50 rounded-xl shadow-[0_0_15px_rgba(220,38,38,0.1)] p-5 mb-10 flex flex-col md:flex-row gap-4">
 
         <input type="text" name="search" value="{{ request('search') }}"
@@ -34,7 +34,7 @@
         </button>
 
         @if(request('search') || request('category'))
-            <a href="/user/books"
+            <a href="/books"
                class="bg-transparent border-2 border-white text-white font-bold px-8 py-3 rounded-lg text-sm
                       hover:bg-zinc-950 border border-red-900/50 hover:text-black transition-all flex items-center justify-center">
                 Reset
@@ -46,7 +46,7 @@
     @if($books->count() > 0)
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @foreach($books as $book)
-            <a href="/user/books/{{ $book->id }}"
+            <a href="/books/{{ $book->id }}"
                class="bg-zinc-900 border border-red-900/30 rounded-xl shadow-lg hover:shadow-red-600/20 hover:-translate-y-2
                       transition-all overflow-hidden group flex flex-col">
                 <div class="overflow-hidden h-64 relative">
@@ -83,7 +83,7 @@
         <div class="text-center py-20">
             <p class="text-5xl mb-4">📚</p>
             <p class="text-red-500">Buku tidak ditemukan</p>
-            <a href="/user/books" class="text-white font-bold text-sm hover:underline mt-2 inline-block">
+            <a href="/books" class="text-white font-bold text-sm hover:underline mt-2 inline-block">
                 Lihat semua buku
             </a>
         </div>

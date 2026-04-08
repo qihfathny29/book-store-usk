@@ -66,7 +66,7 @@ class AuthController extends Controller
             return redirect('/admin/dashboard');
         }
 
-        return redirect('/')->with('success', 'Selamat datang, ' . $user->name . '!');
+        return redirect('/home')->with('success', 'Selamat datang, ' . $user->name . '!');
     }
 
     /** Proses logout user */

@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 // Controllers - User
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 
 // Controllers - Admin
 use App\Http\Controllers\Admin\DashboardController;
@@ -27,10 +28,13 @@ use App\Http\Controllers\Admin\MessageController;
 | Public Routes — Bisa diakses siapa saja
 |--------------------------------------------------------------------------
 */
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
+Route::get('/books', [BookController::class, 'publicIndex'])->name('books.index');
+Route::get('/books/{id}', [BookController::class, 'publicShow'])->name('books.show');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
@@ -54,6 +58,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::middleware('user')->group(function () {
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Books
+    Route::get('/user/books', [BookController::class, 'index'])->name('user.books.index');
+    Route::get('/user/books/{id}', [BookController::class, 'show'])->name('user.books.show');
+
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
@@ -65,6 +77,7 @@ Route::middleware('user')->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{id}/print', [OrderController::class, 'print'])->name('orders.print');
 });
 
 /*
@@ -75,6 +88,8 @@ Route::middleware('user')->group(function () {
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/report/pdf', [DashboardController::class, 'printPDF'])->name('report.pdf');
+    Route::get('/report/excel', [DashboardController::class, 'exportExcel'])->name('report.excel');
 
     // Categories
     Route::resource('categories', CategoryController::class);

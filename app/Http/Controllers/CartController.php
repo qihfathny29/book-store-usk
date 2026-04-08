@@ -29,10 +29,20 @@ class CartController extends Controller
         $userId = session('user')['id'];
         $book   = Book::findOrFail($request->book_id);
 
+        // Cek stok buku sebelum menambah
+        $requestedQuantity = $request->quantity;
+        
         // Cek apakah buku sudah ada di cart
         $cartItem = CartItem::where('user_id', $userId)
                             ->where('book_id', $request->book_id)
                             ->first();
+                            
+        // Hitung total quantity jika sudah ada di keranjang
+        $totalQuantity = $cartItem ? ($cartItem->quantity + $requestedQuantity) : $requestedQuantity;
+        
+        if ($totalQuantity > $book->stock) {
+            return back()->with('error', 'Gagal menambahkan! Stok buku "' . $book->title . '" hanya tersisa ' . $book->stock . '.');
+        }
 
         if ($cartItem) {
             // Update quantity jika sudah ada
@@ -58,18 +68,26 @@ class CartController extends Controller
                             ->where('user_id', session('user')['id'])
                             ->firstOrFail();
 
+        // Hindari set melebihi stok yang ada
+        $book = Book::findOrFail($cartItem->book_id);
+        if ($request->quantity > $book->stock) {
+            return back()->with('error', 'Gagal membarui! Stok buku "' . $book->title . '" hanya tersisa ' . $book->stock . '.');
+        }
+
         $cartItem->update(['quantity' => $request->quantity]);
 
         return back()->with('success', 'Keranjang berhasil diperbarui!');
     }
 
-    /** Hapus item dari cart */
+    /** Menghapus buku dari cart */
     public function destroy($id)
     {
-        CartItem::where('id', $id)
-                ->where('user_id', session('user')['id'])
-                ->firstOrFail()
-                ->delete();
+        $userId = session('user')['id'];
+        $cartItem = CartItem::where('id', $id)
+                            ->where('user_id', $userId)
+                            ->firstOrFail();
+                            
+        $cartItem->delete();
 
         return back()->with('success', 'Buku berhasil dihapus dari keranjang!');
     }

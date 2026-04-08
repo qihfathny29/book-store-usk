@@ -1,85 +1,96 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('title', 'Detail Pesanan — BookStore')
 
 @section('content')
 <div class="max-w-3xl mx-auto px-4 py-10">
 
-    <div class="flex items-center gap-4 mb-8">
-        <a href="/orders" class="text-indigo-600 hover:underline text-sm">← Kembali</a>
-        <h1 class="text-2xl font-bold text-gray-800">Detail Pesanan #{{ $order->id }}</h1>
+    <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+            <a href="/orders" class="text-red-500 hover:text-red-400 hover:underline text-sm font-semibold">← Kembali</a>
+            <h1 class="text-2xl font-bold text-white">Detail Pesanan #{{ $order->id }}</h1>
+        </div>
+        <a href="/orders/{{ $order->id }}/print" target="_blank" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-md shadow-red-600/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Cetak Struk
+        </a>
     </div>
 
     {{-- Status --}}
     @php
         $statusColor = [
-            'pending'    => 'bg-yellow-100 text-yellow-700 border-yellow-200',
-            'processing' => 'bg-blue-100 text-blue-700 border-blue-200',
-            'shipped'    => 'bg-purple-100 text-purple-700 border-purple-200',
-            'delivered'  => 'bg-green-100 text-green-700 border-green-200',
-            'completed'  => 'bg-gray-100 text-gray-700 border-gray-200',
-        ][$order->status] ?? 'bg-gray-100 text-gray-700';
+            'pending'    => 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/50',
+            'processing' => 'bg-blue-500/10 text-blue-500 border border-blue-500/50',
+            'shipped'    => 'bg-purple-500/10 text-purple-500 border border-purple-500/50',
+            'delivered'  => 'bg-green-500/10 text-green-500 border border-green-500/50',
+            'completed'  => 'bg-green-900/10 text-green-600 border border-green-900/50',
+        ][$order->status] ?? 'bg-gray-500/10 text-gray-400 border border-gray-500/50';
 
         $statusLabel = [
             'pending'    => 'Menunggu Konfirmasi',
             'processing' => 'Sedang Diproses',
             'shipped'    => 'Sedang Dikirim',
             'delivered'  => 'Sudah Diterima',
-            'completed'  => 'Selesai',
+            'completed'  => 'Pemesanan Selesai',
         ][$order->status] ?? $order->status;
     @endphp
 
     <div class="border rounded-xl p-4 mb-6 {{ $statusColor }}">
-        <p class="font-semibold">Status: {{ $statusLabel }}</p>
+        <p class="font-bold text-lg flex items-center gap-2">
+            @if($order->status === 'completed') <span class="text-xl">✓</span> @endif
+            Status: {{ $statusLabel }}
+        </p>
         @if($order->status === 'shipped')
             <p class="text-sm mt-1">Siapkan uang ya, buku segera tiba!</p>
+        @elseif($order->status === 'completed')
+            <p class="text-sm mt-1 italic text-gray-500">Terima kasih telah berbelanja di BookStore. Pesanan ini sudah diarsipkan.</p>
         @endif
     </div>
 
     {{-- Info Pengiriman --}}
-    <div class="bg-white rounded-xl shadow p-6 mb-6">
-        <h2 class="font-bold text-gray-800 mb-3">Info Pengiriman</h2>
-        <p class="text-sm text-gray-600">
-            <span class="font-medium">Alamat:</span> {{ $order->shipping_address }}
+    <div class="bg-zinc-950 border border-red-900/50 rounded-xl shadow p-6 mb-6">
+        <h2 class="font-bold text-white mb-3">Info Pengiriman</h2>
+        <p class="text-sm text-gray-400">
+            <span class="font-medium text-gray-300">Alamat:</span> {{ $order->shipping_address }}
         </p>
-        <p class="text-sm text-gray-600 mt-1">
-            <span class="font-medium">Telepon:</span> {{ $order->phone }}
+        <p class="text-sm text-gray-400 mt-1">
+            <span class="font-medium text-gray-300">Telepon:</span> {{ $order->phone }}
         </p>
         @if($order->notes)
-        <p class="text-sm text-gray-600 mt-1">
-            <span class="font-medium">Catatan:</span> {{ $order->notes }}
+        <p class="text-sm text-gray-400 mt-1">
+            <span class="font-medium text-gray-300">Catatan:</span> {{ $order->notes }}
         </p>
         @endif
-        <p class="text-sm text-gray-600 mt-1">
-            <span class="font-medium">Pembayaran:</span>
-            <span class="text-yellow-600 font-medium">Cash on Delivery (COD)</span>
+        <p class="text-sm text-gray-400 mt-1">
+            <span class="font-medium text-gray-300">Pembayaran:</span>
+            <span class="text-red-500 font-medium">Cash on Delivery (COD)</span>
         </p>
     </div>
 
     {{-- Daftar Buku --}}
-    <div class="bg-white rounded-xl shadow p-6 mb-6">
-        <h2 class="font-bold text-gray-800 mb-4">Buku Dipesan</h2>
+    <div class="bg-zinc-950 border border-red-900/50 rounded-xl shadow p-6 mb-6">
+        <h2 class="font-bold text-white mb-4">Buku Dipesan</h2>
         <div class="space-y-4">
             @foreach($order->orderItems as $item)
             <div class="flex gap-4 items-center">
                 <img src="{{ $item->book->image ? Storage::url($item->book->image) : 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=100' }}"
-                     class="w-16 h-20 object-cover rounded-lg">
+                     class="w-16 h-20 object-cover rounded-lg border border-red-900/30">
                 <div class="flex-1">
-                    <p class="font-medium text-gray-800">{{ $item->book->title }}</p>
+                    <p class="font-medium text-white">{{ $item->book->title }}</p>
                     <p class="text-sm text-gray-500">{{ $item->book->author }}</p>
-                    <p class="text-sm text-gray-600 mt-1">
+                    <p class="text-sm text-gray-400 mt-1">
                         Rp {{ number_format($item->price, 0, ',', '.') }} x {{ $item->quantity }}
                     </p>
                 </div>
-                <p class="font-bold text-indigo-600">
+                <p class="font-bold text-red-500">
                     Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
                 </p>
             </div>
             @endforeach
         </div>
-        <hr class="my-4">
-        <div class="flex justify-between font-bold text-gray-800">
+        <hr class="my-4 border-red-900/50">
+        <div class="flex justify-between font-bold text-white">
             <span>Total Pembayaran</span>
-            <span class="text-indigo-600 text-lg">
+            <span class="text-red-500 text-lg">
                 Rp {{ number_format($order->total_price, 0, ',', '.') }}
             </span>
         </div>

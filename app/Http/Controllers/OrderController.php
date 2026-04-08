@@ -90,4 +90,15 @@ class OrderController extends Controller
 
         return view('orders.show', compact('order'));
     }
+
+    /** Print invoice */
+    public function print($id)
+    {
+        $userId = session('user')['id'];
+        $order  = Order::with('orderItems.book')
+                       ->where('user_id', $userId)
+                       ->findOrFail($id);
+
+        return view('orders.print', compact('order'));
+    }
 }
