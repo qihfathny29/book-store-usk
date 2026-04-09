@@ -74,5 +74,53 @@
             </div>
         </form>
     </div>
+
+    {{-- Kotak Masuk / Tiket Bantuan --}}
+    <div class="mt-12 bg-black border border-zinc-800 rounded-2xl shadow-xl p-6 md:p-8">
+        <h2 class="text-2xl font-bold text-white mb-6">&#128233; Kotak Masuk Pesan</h2>
+        
+        @if($messages->isEmpty())
+            <div class="text-center py-8">
+                <p class="text-gray-500">Anda belum pernah mengirim pesan bantuan.</p>
+                <a href="/contact" class="text-red-500 hover:underline text-sm mt-3 inline-block">Kirim Pesan Sekarang</a>
+            </div>
+        @else
+            <div class="space-y-6">
+                @foreach($messages as $msg)
+                <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 relative overflow-hidden">
+                    {{-- Indikator Status --}}
+                    <div class="absolute top-0 left-0 w-1 h-full {{ $msg->admin_reply ? 'bg-green-500' : 'bg-yellow-500' }}"></div>
+                    
+                    <div class="flex justify-between items-start mb-3 pl-2">
+                        <div>
+                            <span class="text-xs font-bold px-2 py-1 rounded {{ $msg->admin_reply ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400' }}">
+                                {{ $msg->admin_reply ? 'Dibalas' : 'Menunggu Balasan' }}
+                            </span>
+                            <span class="text-xs text-gray-500 ml-3">{{ $msg->created_at->format('d M Y, H:i') }}</span>
+                        </div>
+                    </div>
+
+                    {{-- Pesan User --}}
+                    <div class="pl-2 mb-4">
+                        <p class="text-sm text-gray-400 font-bold mb-1">Pesan Anda:</p>
+                        <p class="text-gray-300 leading-relaxed">{{ $msg->message }}</p>
+                    </div>
+
+                    {{-- Balasan Admin --}}
+                    @if($msg->admin_reply)
+                    <div class="pl-2 pt-4 border-t border-zinc-800">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center text-xs font-bold text-white">A</span>
+                            <p class="text-sm font-bold text-white">Admin BookStore</p>
+                        </div>
+                        <p class="text-gray-300 leading-relaxed pl-8">{{ $msg->admin_reply }}</p>
+                    </div>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
 </div>
 @endsection

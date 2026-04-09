@@ -88,9 +88,17 @@
             @endforeach
         </div>
         <hr class="my-4 border-red-900/50">
-        <div class="flex justify-between font-bold text-white">
+        <div class="flex justify-between font-bold text-gray-400 mb-2">
+            <span>Subtotal</span>
+            <span>Rp {{ number_format($order->total_price - $order->shipping_cost, 0, ',', '.') }}</span>
+        </div>
+        <div class="flex justify-between font-bold text-gray-400 mb-4">
+            <span>Biaya Pengiriman</span>
+            <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+        </div>
+        <div class="flex justify-between font-bold text-white pt-4 border-t border-red-900/50">
             <span>Total Pembayaran</span>
-            <span class="text-red-500 text-lg">
+            <span class="text-red-500 text-xl">
                 Rp {{ number_format($order->total_price, 0, ',', '.') }}
             </span>
         </div>

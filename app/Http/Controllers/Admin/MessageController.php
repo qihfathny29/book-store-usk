@@ -22,4 +22,19 @@ class MessageController extends Controller
 
         return view('admin.messages.show', compact('message'));
     }
+
+    /** Simpan balasan admin */
+    public function reply(\Illuminate\Http\Request $request, $id)
+    {
+        $request->validate([
+            'admin_reply' => 'required|string',
+        ]);
+
+        $message = Message::findOrFail($id);
+        $message->update([
+            'admin_reply' => $request->admin_reply
+        ]);
+
+        return back()->with('success', 'Balasan berhasil dikirim!');
+    }
 }

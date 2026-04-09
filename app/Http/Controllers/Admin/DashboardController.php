@@ -65,7 +65,7 @@ class DashboardController extends Controller
             $file = fopen('php://output', 'w');
             
             // Tulis Header Kolom Excel (Baris pertama)
-            fputcsv($file, ['Order ID', 'Tanggal Transaksi', 'Nama Pelanggan', 'Detail Item Buku', 'Total Harga (Rp)']);
+            fputcsv($file, ['Order ID', 'Tanggal Transaksi', 'Nama Pelanggan', 'Detail Item Buku', 'Ongkir (Rp)', 'Total Harga (Rp)']);
 
             // Looping data order dan masukkan ke tiap baris
             foreach ($orders as $order) {
@@ -80,6 +80,7 @@ class DashboardController extends Controller
                     $order->created_at->format('d/m/Y H:i'),
                     $order->user->name,
                     implode(', ', $itemDetails),
+                    $order->shipping_cost,
                     $order->total_price
                 ]);
             }

@@ -15,12 +15,9 @@ class ProfileController extends Controller
         $userId = session('user')['id'];
         $user = User::findOrFail($userId);
         
-        return view('profile.index', compact('user'));
-    }
+        $messages = \App\Models\Message::where('user_id', $userId)->latest()->get();
 
-    /** Proses update profil ke dalam database */
-    public function update(Request $request)
-    {
+        return view('user.profile.index', compact('user', 'messages'));
         $userId = session('user')['id'];
         $user = User::findOrFail($userId);
 

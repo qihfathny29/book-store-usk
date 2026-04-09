@@ -93,7 +93,15 @@
             </tbody>
         </table>
 
-        <div class="flex justify-between font-bold text-sm">
+        <div class="flex justify-between text-sm" style="margin-top: 10px;">
+            <span>Subtotal:</span>
+            <span>Rp {{ number_format($order->total_price - $order->shipping_cost, 0, ',', '.') }}</span>
+        </div>
+        <div class="flex justify-between text-sm">
+            <span>Ongkos Kirim:</span>
+            <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+        </div>
+        <div class="flex justify-between font-bold text-sm" style="margin-top: 5px; padding-top: 5px; border-top: 1px dashed #000;">
             <span>Total Bayar:</span>
             <span>Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
         </div>

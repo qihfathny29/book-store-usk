@@ -25,7 +25,7 @@ class BookController extends Controller
         $books      = $query->latest()->paginate(12);
         $categories = Category::all();
 
-        return view('books.index', compact('books', 'categories'));
+        return view('user.books.index', compact('books', 'categories'));
     }
 
     /** Tampilkan detail satu buku (KHUSUS USER) */
@@ -37,7 +37,7 @@ class BookController extends Controller
                              ->take(4)
                              ->get();
 
-        return view('books.show', compact('book', 'relatedBooks'));
+        return view('user.books.detail', compact('book', 'relatedBooks'));
     }
 
     /** Tampilkan semua buku dengan fitur pencarian & filter kategori (PUBLIC) */
@@ -57,7 +57,7 @@ class BookController extends Controller
         $books      = $query->latest()->paginate(12);
         $categories = Category::all();
 
-        return view('public_index', compact('books', 'categories'));
+        return view('catalog.index', compact('books', 'categories'));
     }
 
     /** Tampilkan detail satu buku (PUBLIC) */
@@ -69,6 +69,6 @@ class BookController extends Controller
                              ->take(4)
                              ->get();
 
-        return view('public_show', compact('book', 'relatedBooks'));
+        return view('catalog.detail', compact('book', 'relatedBooks'));
     }
 }

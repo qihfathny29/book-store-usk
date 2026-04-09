@@ -15,6 +15,7 @@ return new class extends Migration
         $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->decimal('total_price', 10, 2);
+        $table->decimal('shipping_cost', 10, 2)->default(0);
         $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'completed'])->default('pending');
         $table->string('payment_method')->default('Cash on Delivery'); // Menambahkan field metode pembayaran
         $table->text('shipping_address');

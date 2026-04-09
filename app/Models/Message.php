@@ -10,7 +10,7 @@ class Message extends Model
     use HasFactory;
 
     /** Kolom yang boleh diisi secara massal */
-    protected $fillable = ['user_id', 'name', 'email', 'message', 'is_read'];
+    protected $fillable = ['user_id', 'name', 'email', 'message', 'admin_reply', 'is_read'];
 
     /** Relasi: pesan bisa dikirim oleh user (nullable) */
     public function user()

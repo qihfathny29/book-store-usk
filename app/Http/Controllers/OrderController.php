@@ -21,8 +21,9 @@ class OrderController extends Controller
         }
 
         $total = $cartItems->sum(fn($item) => $item->book->price * $item->quantity);
+        $shipping_cost = 15000; // Ongkos kirim flat Rp 15.000
 
-        return view('orders.checkout', compact('cartItems', 'total'));
+        return view('user.orders.checkout', compact('cartItems', 'total', 'shipping_cost'));
     }
 
     /** Proses pembuatan order baru dari cart */
@@ -42,12 +43,15 @@ class OrderController extends Controller
         }
 
         // Hitung total harga
-        $total = $cartItems->sum(fn($item) => $item->book->price * $item->quantity);
+        $subtotal = $cartItems->sum(fn($item) => $item->book->price * $item->quantity);
+        $shipping_cost = 15000; // Ongkos kirim flat
+        $total = $subtotal + $shipping_cost;
 
         // Buat order baru
         $order = Order::create([
             'user_id'          => $userId,
             'total_price'      => $total,
+            'shipping_cost'    => $shipping_cost,
             'status'           => 'pending',
             'shipping_address' => $request->shipping_address,
             'phone'            => $request->phone,
@@ -62,6 +66,9 @@ class OrderController extends Controller
                 'quantity' => $item->quantity,
                 'price'    => $item->book->price,
             ]);
+
+            // Kurangi stok buku yang terjual
+            $item->book->decrement('stock', $item->quantity);
         }
 
         // Kosongkan cart setelah order dibuat
@@ -77,7 +84,7 @@ class OrderController extends Controller
         $userId = session('user')['id'];
         $orders = Order::where('user_id', $userId)->latest()->paginate(10);
 
-        return view('orders.index', compact('orders'));
+        return view('user.orders.index', compact('orders'));
     }
 
     /** Tampilkan detail satu order */
@@ -88,7 +95,7 @@ class OrderController extends Controller
                        ->where('user_id', $userId)
                        ->findOrFail($id);
 
-        return view('orders.show', compact('order'));
+        return view('user.orders.detail', compact('order'));
     }
 
     /** Print invoice */
@@ -99,6 +106,6 @@ class OrderController extends Controller
                        ->where('user_id', $userId)
                        ->findOrFail($id);
 
-        return view('orders.print', compact('order'));
+        return view('user.orders.print', compact('order'));
     }
 }

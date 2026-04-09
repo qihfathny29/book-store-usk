@@ -134,10 +134,11 @@
         <thead>
             <tr>
                 <th width="10%">Order ID</th>
-                <th width="15%">Tanggal</th>
-                <th width="20%">Pelanggan</th>
-                <th width="35%">Item</th>
-                <th width="20%" class="text-right">Total Transaksi</th>
+                <th width="12%">Tanggal</th>
+                <th width="18%">Pelanggan</th>
+                <th width="30%">Item</th>
+                <th width="15%" class="text-right">Ongkir</th>
+                <th width="15%" class="text-right">Total Transaksi</th>
             </tr>
         </thead>
         <tbody>
@@ -153,13 +154,16 @@
                             @endforeach
                         </ul>
                     </td>
+                    <td class="text-right">
+                        Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}
+                    </td>
                     <td class="text-right font-bold">
                         Rp {{ number_format($order->total_price, 0, ',', '.') }}
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">Belum ada transaksi penjualan yang sukses.</td>
+                    <td colspan="6" class="text-center">Belum ada transaksi penjualan yang sukses.</td>
                 </tr>
             @endforelse
         </tbody>

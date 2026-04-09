@@ -4,7 +4,7 @@
 @section('content')
 <div class="max-w-lg">
     <div class="flex items-center gap-4 mb-6">
-        <a href="/admin/categories" class="text-red-500 hover:underline text-sm">â† Kembali</a>
+        <a href="/admin/categories" class="text-red-500 hover:underline text-sm">&larr; Kembali</a>
         <h1 class="text-2xl font-bold text-white">Tambah Kategori</h1>
     </div>
 
@@ -14,7 +14,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Nama Kategori</label>
                 <input type="text" name="name" value="{{ old('name') }}"
-                       class="w-full border border-red-900/50 rounded-lg px-4 py-2 text-sm
+                       class="w-full bg-black text-white border border-red-900/50 rounded-lg px-4 py-2 text-sm
                               focus:outline-none focus:ring-2 focus:ring-red-600"
                        placeholder="Contoh: Fiksi, Sains, Sejarah..." required>
                 @error('name')

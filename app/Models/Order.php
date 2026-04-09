@@ -11,7 +11,7 @@ class Order extends Model
 
     /** Kolom yang boleh diisi secara massal */
     protected $fillable = [
-        'user_id', 'total_price', 'status',
+        'user_id', 'total_price', 'shipping_cost', 'status',
         'shipping_address', 'phone', 'notes'
     ];
 

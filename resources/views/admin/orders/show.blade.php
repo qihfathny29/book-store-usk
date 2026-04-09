@@ -39,10 +39,16 @@
             @endforeach
         </div>
         <hr class="my-4">
-        <div class="flex justify-between font-bold">
-            <span>Total</span>
-            <span class="text-red-500">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
-        </div>
+          <div class="flex justify-between text-gray-400 mb-2">
+              <span>Subtotal</span>
+              <span>Rp {{ number_format($order->total_price - $order->shipping_cost, 0, ',', '.') }}</span>
+          </div>
+          <div class="flex justify-between text-gray-400 mb-4">
+              <span>Biaya Pengiriman</span>
+              <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+          </div>
+          <div class="flex justify-between font-bold pt-4 border-t border-zinc-800">
+              <span class="text-white">Total</span>
     </div>
 
     {{-- Update Status --}}

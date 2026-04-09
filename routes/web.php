@@ -108,4 +108,5 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     // Messages
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
 });

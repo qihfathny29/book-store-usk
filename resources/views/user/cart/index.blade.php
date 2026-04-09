@@ -73,13 +73,17 @@
                         <span>Subtotal</span>
                         <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
+                    <div class="flex justify-between text-gray-400 mb-2">
+                        <span>Estimasi Ongkir</span>
+                        <span>Rp 15.000</span>
+                    </div>
                 </div>
 
                 <div class="border-t border-red-900/50 pt-4 mb-8">
                     <div class="flex justify-between items-center">
-                        <span class="font-bold text-white">Total</span>
+                        <span class="font-bold text-white">Total Akhir</span>
                         <span class="text-2xl font-bold text-red-500">
-                            Rp {{ number_format($total, 0, ',', '.') }}
+                            Rp {{ number_format($total + 15000, 0, ',', '.') }}
                         </span>
                     </div>
                 </div>

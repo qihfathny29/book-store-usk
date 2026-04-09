@@ -90,17 +90,15 @@
                     </div>
                     <div class="flex justify-between text-gray-400">
                         <span>Biaya Pengiriman</span>
-                        <span class="text-green-500">Gratis</span>
-                    </div>
-                </div>
+                          <span>Rp {{ number_format($shipping_cost, 0, ',', '.') }}</span>
+                      </div>
+                  </div>
 
-                <div class="border-t border-red-900/50 pt-4 mb-8">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-white">Total Pembayaran</span>
-                        <span class="text-2xl font-bold text-red-500">
-                            Rp {{ number_format($total, 0, ',', '.') }}
-                        </span>
-                    </div>
+                  <div class="border-t border-red-900/50 pt-4 mb-8">
+                      <div class="flex justify-between items-center">
+                          <span class="font-bold text-white">Total Pembayaran</span>
+                          <span class="text-2xl font-bold text-red-500">
+                              Rp {{ number_format($total + $shipping_cost, 0, ',', '.') }}
                 </div>
 
                 <button type="submit" class="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-4 rounded-xl font-bold transition-all shadow-lg shadow-red-500/20">

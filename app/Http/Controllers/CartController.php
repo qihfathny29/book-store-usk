@@ -15,7 +15,7 @@ class CartController extends Controller
         $cartItems = CartItem::with('book')->where('user_id', $userId)->get();
         $total     = $cartItems->sum(fn($item) => $item->book->price * $item->quantity);
 
-        return view('cart.index', compact('cartItems', 'total'));
+        return view('user.cart.index', compact('cartItems', 'total'));
     }
 
     /** Tambahkan buku ke cart */
